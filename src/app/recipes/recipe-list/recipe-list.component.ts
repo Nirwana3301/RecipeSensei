@@ -7,7 +7,7 @@ import { Recipe } from '../recipe.model';
   styleUrls: ['./recipe-list.component.css'],
 })
 export class RecipeListComponent {
-  @Output() selectedRecipe = new EventEmitter<Recipe>();
+  @Output() recipeWasSelected = new EventEmitter<Recipe>();
 
   recipes: Recipe[] = [
     new Recipe(
@@ -33,6 +33,6 @@ export class RecipeListComponent {
   ];
 
   onRecipeSelected(recipe: Recipe) {
-    this.selectedRecipe.emit(recipe)
+    this.recipeWasSelected.emit(recipe)
   }
 }
