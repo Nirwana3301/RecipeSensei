@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './shopping-edit.component.html',
   styleUrls: ['./shopping-edit.component.css']
 })
+
 export class ShoppingEditComponent {
 
 }
