@@ -4,20 +4,17 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-12">
-    <h1>Recipe Name</h1>
-  </div>
-</div>
-<div class="row">
   <img
     [src]="recipe.imagePath"
     alt="{{ recipe.name }}"
     class="img-responsive"
-    style="max-height: 300px"
+    style="max-height: 400px"
   />
 </div>
 <div class="row">
-  <div class="col-xs-12">{{ recipe.name }}</div>
+  <div class="col-xs-12" style="font-size: 40px; font-weight: bold">
+    {{ recipe.name }}
+  </div>
 </div>
 
 <div class="row">
@@ -26,8 +23,12 @@
       <button type="button" class="btn btn-primary dropdown-toggle">
         Manage Recipie <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu"> 
-        <li><a href="#">Shopping list</a></li>
+      <ul class="dropdown-menu">
+        <li>
+          <a style="cursor: pointer" (click)="onAddToShoppingList()"
+            >To shopping list</a
+          >
+        </li>
         <li><a href="#">Edit Recipe</a></li>
         <li><a href="#">Delete Recipe</a></li>
       </ul>
@@ -36,4 +37,13 @@
 </div>
 <div class="row">
   <div class="col-xs-12">{{ recipe.description }}</div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let ingredient of recipe.ingredients">
+        {{ ingredient.name }} - {{ ingredient.amount }}
+      </li>
+    </ul>
+  </div>
 </div>
