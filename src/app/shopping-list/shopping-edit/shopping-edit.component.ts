@@ -7,7 +7,7 @@ import { Ingredient } from '../../shared/ingredient.model';
 
 import { ShoppingListService } from '../shopping-list-service';
 
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -17,10 +17,20 @@ import { NgForm } from '@angular/forms';
 export class ShoppingEditComponent {
   constructor(private shoppingListService: ShoppingListService) {}
 
-  onAddItem(form: NgForm) {
-    const ingName = form.value
+  //Reactive Forms for name and amount
+  ingredientForm = new FormGroup({
+    name: new FormControl('', Validators.required),
+    amount: new FormControl(null, Validators.required),
+  });
 
-    const newIngredient = new Ingredient(ingName.name, ingName.amount);
+  //Add ingredient
+  onAddIngredient() {
+    const name = this.ingredientForm.value.name;
+    const amount = this.ingredientForm.value.amount;
+    const newIngredient = new Ingredient(name, amount);
     this.shoppingListService.addIngredient(newIngredient);
   }
+
+
+  
 }
