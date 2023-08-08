@@ -20,7 +20,7 @@ export class ShoppingEditComponent {
   //Reactive Forms for name and amount
   ingredientForm = new FormGroup({
     name: new FormControl('', Validators.required),
-    amount: new FormControl(null, Validators.required),
+    amount: new FormControl(1, [Validators.required, Validators.min(1)]),
   });
 
   //Add ingredient
@@ -30,7 +30,4 @@ export class ShoppingEditComponent {
     const newIngredient = new Ingredient(name, amount);
     this.shoppingListService.addIngredient(newIngredient);
   }
-
-
-  
 }
