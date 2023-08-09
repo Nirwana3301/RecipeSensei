@@ -1,9 +1,7 @@
 <div class="row">
   <div class="col-xs-12">
     <!-- Reactive From Approach-->
-    <form
-    [formGroup]="ingredientForm"
-    (ngSubmit)="onAddIngredient()">
+    <form [formGroup]="ingredientForm" (ngSubmit)="onAddIngredient()">
       <div class="row">
         <div class="col-sm-5 form-group">
           <label for="name">Name</label>
@@ -26,9 +24,24 @@
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <button class="btn btn-success" type="submit" [disabled]="ingredientForm.invalid">Add</button>
-          <button class="btn btn-danger" type="button">Delete</button>
-          <button class="btn btn-primary" type="button">Clear</button>
+          <button
+            class="btn btn-success"
+            type="submit"
+            [disabled]="ingredientForm.invalid"
+          >
+            {{ editMode ? "Update" : "Add" }}
+          </button>
+          <button
+            class="btn btn-danger"
+            type="button"
+            (click)="onDeleteIngredient()"
+            [disabled]="!editMode"
+          >
+            Delete
+          </button>
+          <button class="btn btn-primary" type="button" (click)="onClear()">
+            Clear
+          </button>
         </div>
       </div>
     </form>
