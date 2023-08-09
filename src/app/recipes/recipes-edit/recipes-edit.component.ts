@@ -1,6 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormGroup, FormControl, Validator, FormArray } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validator,
+  FormArray,
+  Validators,
+} from '@angular/forms';
 import { RecipeService } from '../recipe.service';
 
 @Component({
@@ -12,6 +18,7 @@ export class RecipesEditComponent implements OnInit {
   id: number;
   editMode = false;
   recipeForm: FormGroup;
+  @ViewChild('addIngredient') addIngredient: ElementRef;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,6 +31,11 @@ export class RecipesEditComponent implements OnInit {
       this.editMode = params['id'] != null;
       this.initForm();
     });
+
+  }
+
+  ngAfterViewInit() {
+    this.moveAddIngredientButtonIfUserHoversOverIngredientButton();
   }
 
   get controls() {
@@ -33,6 +45,24 @@ export class RecipesEditComponent implements OnInit {
 
   onSubmit() {
     console.log(this.recipeForm);
+  }
+
+  onAddIngredient() {
+    //Add a new ingredient to the ingredients FormArray
+    (<FormArray>this.recipeForm.get('ingredients')).push(
+      new FormGroup({
+        name: new FormControl(null, Validators.required),
+        amount: new FormControl(null, [
+          Validators.required,
+          Validators.pattern(/^[1-9]+[0-9]*$/),
+        ]),
+      })
+    );
+  }
+
+  onDeleteIngredient(index: number) {
+    //Remove an ingredient from the ingredients FormArray
+    (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
   }
 
   private initForm() {
@@ -52,8 +82,11 @@ export class RecipesEditComponent implements OnInit {
         for (let ingredient of recipe.ingredients) {
           recipeIngredients.push(
             new FormGroup({
-              name: new FormControl(ingredient.name),
-              amount: new FormControl(ingredient.amount),
+              name: new FormControl(ingredient.name, Validators.required),
+              amount: new FormControl(ingredient.amount, [
+                Validators.required,
+                Validators.pattern(/^[1-9]+[0-9]*$/),
+              ]),
             })
           );
         }
@@ -61,10 +94,29 @@ export class RecipesEditComponent implements OnInit {
     }
 
     this.recipeForm = new FormGroup({
-      name: new FormControl(recipeName),
-      imagePath: new FormControl(recipeImagePath),
-      description: new FormControl(recipeDescription),
+      name: new FormControl(recipeName, Validators.required),
+      imagePath: new FormControl(recipeImagePath, Validators.required),
+      description: new FormControl(recipeDescription, Validators.required),
       ingredients: recipeIngredients,
+    });
+  }
+
+  moveAddIngredientButtonIfUserHoversOverIngredientButton() {
+    //If the user hovers over the add ingredient button, move the button to the right
+    //so that the user can see what they are typing in the ingredient input field
+    //and the add ingredient button at the same time.
+    this.addIngredient.nativeElement.addEventListener('mouseover', () => {
+      this.addIngredient.nativeElement.style.position = 'fixed';
+      this.addIngredient.nativeElement.style.marginLeft = '200px';
+      this.addIngredient.nativeElement.style.cursor = 'default';
+
+    });
+
+    //If the user moves the mouse away from the add ingredient button, move the button
+    //back to its original position.
+    this.addIngredient.nativeElement.addEventListener('mouseout', () => {
+      this.addIngredient.nativeElement.style.position = 'relative';
+      this.addIngredient.nativeElement.style.marginLeft = '0px';
     });
   }
 }

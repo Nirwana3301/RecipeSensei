@@ -1,0 +1,22 @@
+input.ng-invalid,
+textarea.ng-invalid {
+  border: 5px solid red;
+  background-color: yellow;
+  font-weight: bold;
+  animation: shake .1s infinite
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
