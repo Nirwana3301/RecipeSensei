@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RecipeService } from '../recipe.service';
+import { Recipe } from '../recipe.model';
 
 @Component({
   selector: 'app-recipes-edit',
@@ -31,7 +32,6 @@ export class RecipesEditComponent implements OnInit {
       this.editMode = params['id'] != null;
       this.initForm();
     });
-
   }
 
   ngAfterViewInit() {
@@ -44,7 +44,11 @@ export class RecipesEditComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.recipeForm);
+    if (this.editMode) {
+      this.recipeService.updateRecipe(this.id, this.recipeForm.value);
+    } else {
+      this.recipeService.addRecipe(this.recipeForm.value);
+    }
   }
 
   onAddIngredient() {
@@ -109,7 +113,6 @@ export class RecipesEditComponent implements OnInit {
       this.addIngredient.nativeElement.style.position = 'fixed';
       this.addIngredient.nativeElement.style.marginLeft = '200px';
       this.addIngredient.nativeElement.style.cursor = 'default';
-
     });
 
     //If the user moves the mouse away from the add ingredient button, move the button
