@@ -3,12 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import {
   FormGroup,
   FormControl,
-  Validator,
   FormArray,
   Validators,
 } from '@angular/forms';
 import { RecipeService } from '../recipe.service';
-import { Recipe } from '../recipe.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipes-edit',
@@ -23,7 +22,8 @@ export class RecipesEditComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +49,14 @@ export class RecipesEditComponent implements OnInit {
     } else {
       this.recipeService.addRecipe(this.recipeForm.value);
     }
+
+    //Navigate back to the previous page
+    this.onCancel();
+  }
+
+  onCancel() {
+    //Navigate back to the previous page
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   onAddIngredient() {
