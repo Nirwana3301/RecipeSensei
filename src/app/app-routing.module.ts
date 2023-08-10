@@ -8,16 +8,18 @@ import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.com
 import { RecipesEditComponent } from './recipes/recipes-edit/recipes-edit.component';
 import { RecipesResolverService } from './recipes/recipe-resolver.service';
 import { AuthComponent } from './auth/auth.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const appRoutes: Routes = [
   {
     path: '',
     redirectTo: '/recipes',
-    pathMatch: 'full', // only redirect if full path is empty 
+    pathMatch: 'full', // only redirect if full path is empty
   },
   {
     path: 'recipes',
     component: RecipesComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -30,12 +32,12 @@ const appRoutes: Routes = [
       {
         path: ':id',
         component: RecipeDetailComponent,
-        resolve: [RecipesResolverService]
+        resolve: [RecipesResolverService],
       },
       {
         path: ':id/edit',
         component: RecipesEditComponent,
-        resolve: [RecipesResolverService]
+        resolve: [RecipesResolverService],
       },
     ],
   },
