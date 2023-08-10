@@ -11,7 +11,7 @@ export class RecipeService {
   //Manange recipes
   constructor(private shoppingListService: ShoppingListService) {}
 
-  private recipes: Recipe[] = [
+ /* private recipes: Recipe[] = [
     new Recipe(
       'Pan Seared Salmon',
       'This meal is delicious and healthy',
@@ -54,7 +54,9 @@ export class RecipeService {
         new Ingredient('Salt', 1),
       ]
     ),
-  ];
+  ];*/
+
+  private recipes: Recipe[] = [];	
 
   getRecipes() {
     //Return a copy of the array
@@ -84,6 +86,12 @@ export class RecipeService {
 
   deleteRecipe(index: number) {
     this.recipes.splice(index, 1);
+    this.recipesChanged.next(this.recipes.slice()); //Emit a new copy of the recipes array
+  }
+
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = [];
+    this.recipes = recipes;
     this.recipesChanged.next(this.recipes.slice()); //Emit a new copy of the recipes array
   }
 }
