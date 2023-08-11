@@ -21,6 +21,10 @@ export class AuthComponent {
     password: new FormControl('', [Validators.required]),
   });
 
+  onHandleError() {
+    this.error = null;
+  }
+
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
   }
