@@ -11,6 +11,12 @@ const appRoutes: Routes = [
     pathMatch: 'full', // only redirect if full path is empty
   },
   {
+    path: 'recipes',
+    //Lazy loading
+    loadChildren: () =>
+      import('./recipes/recipes.module').then((m) => m.RecipesModule),
+  },
+  {
     path: 'shopping-list',
     component: ShoppingListComponent,
   },

@@ -19,7 +19,6 @@ import { RecipeService } from './recipes/recipe.service';
 import { AuthComponent } from './auth/auth.component';
 
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
-import { RecipesModule } from './recipes/recipes.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +37,6 @@ import { RecipesModule } from './recipes/recipes.module';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RecipesModule,
   ],
   providers: [
     ShoppingListService,

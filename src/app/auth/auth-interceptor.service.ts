@@ -13,7 +13,7 @@ export class AuthInterceptorService {
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    this.authService.user.pipe(
+    return this.authService.user.pipe(
       take(1),
       exhaustMap((user) => {
         if (!user) {

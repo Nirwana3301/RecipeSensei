@@ -23,6 +23,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   signup(email: string, password: string) {
+    console.log('singed UPPPP');
     return this.http
       .post<AuthResponseData>(
         'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAuu1Is9aw6prBF41Unp-MFzckS1DQwfV4',
@@ -35,6 +36,8 @@ export class AuthService {
       .pipe(
         catchError(this.handleErrorResponse),
         tap((resData) => {
+          console.log(this.handleErrorResponse),
+          console.log(resData);
           this.handleAuthentication(
             resData.email,
             resData.localId,
@@ -126,6 +129,7 @@ export class AuthService {
     token: string,
     expiresIn: number
   ) {
+    console.log('handleAuthentication');
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, expirationDate);
     this.user.next(user);
@@ -134,6 +138,8 @@ export class AuthService {
   }
 
   private handleErrorResponse(errorRes: HttpErrorResponse) {
+    console.log("ERROR", errorRes);
+    
     let errorMessage = 'An unknown error occurred!';
     if (!errorRes.error || !errorRes.error.error) {
       return throwError(errorMessage);
